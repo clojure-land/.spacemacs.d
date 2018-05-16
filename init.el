@@ -1,10 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
 
-(setq package-user-dir
-      (expand-file-name (concat "elpa-" (substring emacs-version 0 (string-match "\\." emacs-version 3)))
-			                  ;; user-emacs-directory
-                        dotspacemacs-directory))
-
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -37,25 +32,27 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+     spacemacs-editing
+     spacemacs-editing-visual
+     spacemacs-evil
+
+     ;; Reload = SPC f e R
      helm
      ;; auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
-     neotree
-     ;; org
+     git
+     markdown
+     ;; neotree
+     org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
-     ;; version-control
+     version-control
+     clojure
+     lambdaisland
      )
 
    ;; List of additional packages that will be installed without being
@@ -187,10 +184,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
-                               :width normal)
+   dotspacemacs-default-font '("Inconsolata" :size 17)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -437,6 +431,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq package-user-dir
+        (expand-file-name (concat "elpa-" (substring emacs-version 0 (string-match "\\." emacs-version 3)))
+			                    ;; user-emacs-directory
+                          dotspacemacs-directory))
   )
 
 (defun dotspacemacs/user-config ()
@@ -445,27 +443,39 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  (set-frame-font "Inconsolata-17")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
+This is an auto-generated function, do not modify its content
+directly, use Emacs customize menu instead. This function is
+called at the very end of Spacemacs initialization."
+  )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes
+   (quote
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (winum overseer f dash s neotree nameless macrostep helm-xref helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx flx helm-descbinds helm-ag elisp-slime-nav auto-compile packed ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el hydra exec-path-from-shell evil goto-chg undo-tree diminish bind-map bind-key async))))
+    (centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line)))
+ '(safe-local-variable-values
+   (quote
+    ((dired-actual-switches . "-AlhrG --color=always")
+     (dired-listing-switches . "-alr")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-)
