@@ -27,18 +27,22 @@ This function should only modify configuration layer settings."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("/home/arne/github/plexmacs/layers/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     yaml
+     javascript
+     html
+     ruby
      spacemacs-editing
      spacemacs-editing-visual
      spacemacs-evil
 
      ;; Reload = SPC f e R
      helm
-     ;; auto-completion
+     auto-completion
      better-defaults
      emacs-lisp
      git
@@ -52,8 +56,11 @@ This function should only modify configuration layer settings."
      ;; syntax-checking
      version-control
      clojure
+
      lambdaisland
-     )
+     plexus-defaults
+     plexus-editing
+     plexus-clojure-extras)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -451,28 +458,72 @@ before packages are loaded."
 ;; auto-generate custom variable definitions.
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
-This is an auto-generated function, do not modify its content
-directly, use Emacs customize menu instead. This function is
-called at the very end of Spacemacs initialization."
-  )
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(sanityinc-tomorrow-night))
+ '(custom-safe-themes
+   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
+ '(debug-on-error t)
+ '(evil-want-Y-yank-to-eol nil)
+ '(global-git-gutter-mode t)
+ '(package-selected-packages
+   '(docker-compose-mode dockerfile-mode treepy y flycheck yaml-mode parseclj string-edit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby edit-indirect helm-company helm-c-yasnippet fuzzy company-statistics company clojure-snippets auto-yasnippet ac-ispell auto-complete centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line))
+ '(safe-local-variable-values
+   '((cider-default-cljs-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+     (cider-cljs-lein-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+     (checkdoc-package-keywords-flag)
+     (buffer-save-without-query . t)
+     (cider-cljs-lein-repl . "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
+     (cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
+     (cider-refresh-after-fn . "reloaded.repl/resume")
+     (cider-refresh-before-fn . "reloaded.repl/suspend")
+     (cider-refresh-after-fn . "server.repl/post-refresh")
+     (cider-refresh-before-fn . "server.repl/pre-refresh")
+     (dired-actual-switches . "-AlhrG --color=always")
+     (dired-listing-switches . "-alr"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(auth-source-save-behavior nil)
+ '(custom-enabled-themes '(sanityinc-tomorrow-night))
  '(custom-safe-themes
-   (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
+ '(debug-on-error t)
  '(evil-want-Y-yank-to-eol nil)
+ '(global-git-gutter-mode t)
  '(package-selected-packages
-   (quote
-    (centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line)))
+   '(ctable package-lint docker-compose-mode dockerfile-mode treepy y flycheck yaml-mode parseclj string-edit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby edit-indirect helm-company helm-c-yasnippet fuzzy company-statistics company clojure-snippets auto-yasnippet ac-ispell auto-complete centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line))
  '(safe-local-variable-values
-   (quote
-    ((dired-actual-switches . "-AlhrG --color=always")
-     (dired-listing-switches . "-alr")))))
+   '((checkdoc-minor-mode . 1)
+     (header-auto-update-enabled)
+     (cider-default-cljs-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+     (cider-cljs-lein-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+     (checkdoc-package-keywords-flag)
+     (buffer-save-without-query . t)
+     (cider-cljs-lein-repl . "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
+     (cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
+     (cider-refresh-after-fn . "reloaded.repl/resume")
+     (cider-refresh-before-fn . "reloaded.repl/suspend")
+     (cider-refresh-after-fn . "server.repl/post-refresh")
+     (cider-refresh-before-fn . "server.repl/pre-refresh")
+     (dired-actual-switches . "-AlhrG --color=always")
+     (dired-listing-switches . "-alr"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
