@@ -39,6 +39,9 @@ This function should only modify configuration layer settings."
      spacemacs-editing
      spacemacs-editing-visual
      spacemacs-evil
+     spacemacs-modeline
+     spacemacs-navigation
+     spacemacs-project
 
      ;; Reload = SPC f e R
      helm
@@ -48,7 +51,7 @@ This function should only modify configuration layer settings."
      git
      markdown
      ;; neotree
-     org
+     (org :variables org-enable-github-support t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -60,7 +63,10 @@ This function should only modify configuration layer settings."
      lambdaisland
      plexus-defaults
      plexus-editing
-     plexus-clojure-extras)
+     plexus-clojure-extras
+     plexus-elisp-extras
+     plexus-markdown
+     plexus-org-tweaks)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -191,7 +197,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Inconsolata" :size 17)
+   dotspacemacs-default-font '("Inconsolata"
+                               :weight normal
+                               :slant normal
+                               :size 17.0)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -247,7 +256,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -438,10 +447,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (setq package-user-dir
-        (expand-file-name (concat "elpa-" (substring emacs-version 0 (string-match "\\." emacs-version 3)))
-			                    ;; user-emacs-directory
-                          dotspacemacs-directory))
+  ;; (setq package-user-dir
+  ;;       (expand-file-name (concat "elpa-" (substring emacs-version 0 (string-match "\\." emacs-version 3)))
+	;; 		                    ;; user-emacs-directory
+  ;;                         dotspacemacs-directory))
   )
 
 (defun dotspacemacs/user-config ()
@@ -451,7 +460,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  (set-frame-font "Inconsolata-17")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -461,72 +469,96 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(sanityinc-tomorrow-night))
- '(custom-safe-themes
-   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
- '(debug-on-error t)
- '(evil-want-Y-yank-to-eol nil)
- '(global-git-gutter-mode t)
- '(package-selected-packages
-   '(docker-compose-mode dockerfile-mode treepy y flycheck yaml-mode parseclj string-edit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby edit-indirect helm-company helm-c-yasnippet fuzzy company-statistics company clojure-snippets auto-yasnippet ac-ispell auto-complete centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line))
- '(safe-local-variable-values
-   '((cider-default-cljs-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
-     (cider-cljs-lein-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
-     (checkdoc-package-keywords-flag)
-     (buffer-save-without-query . t)
-     (cider-cljs-lein-repl . "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
-     (cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
-     (cider-refresh-after-fn . "reloaded.repl/resume")
-     (cider-refresh-before-fn . "reloaded.repl/suspend")
-     (cider-refresh-after-fn . "server.repl/post-refresh")
-     (cider-refresh-before-fn . "server.repl/pre-refresh")
-     (dired-actual-switches . "-AlhrG --color=always")
-     (dired-listing-switches . "-alr"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auth-source-save-behavior nil)
- '(custom-enabled-themes '(sanityinc-tomorrow-night))
- '(custom-safe-themes
-   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
- '(debug-on-error t)
- '(evil-want-Y-yank-to-eol nil)
- '(global-git-gutter-mode t)
- '(package-selected-packages
-   '(ctable package-lint docker-compose-mode dockerfile-mode treepy y flycheck yaml-mode parseclj string-edit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby edit-indirect helm-company helm-c-yasnippet fuzzy company-statistics company clojure-snippets auto-yasnippet ac-ispell auto-complete centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line))
- '(safe-local-variable-values
-   '((checkdoc-minor-mode . 1)
-     (header-auto-update-enabled)
-     (cider-default-cljs-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
-     (cider-cljs-lein-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
-     (checkdoc-package-keywords-flag)
-     (buffer-save-without-query . t)
-     (cider-cljs-lein-repl . "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
-     (cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
-     (cider-refresh-after-fn . "reloaded.repl/resume")
-     (cider-refresh-before-fn . "reloaded.repl/suspend")
-     (cider-refresh-after-fn . "server.repl/post-refresh")
-     (cider-refresh-before-fn . "server.repl/pre-refresh")
-     (dired-actual-switches . "-AlhrG --color=always")
-     (dired-listing-switches . "-alr"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(ansi-color-faces-vector
+     [default bold shadow italic underline bold bold-italic bold])
+   '(ansi-color-names-vector
+     (vector "#373b41" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#c5c8c6"))
+   '(auth-source-save-behavior nil)
+   '(beacon-color "#cc6666")
+   '(custom-enabled-themes '(sanityinc-tomorrow-night))
+   '(custom-safe-themes
+     '("bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
+   '(debug-on-error t)
+   '(evil-want-Y-yank-to-eol nil)
+   '(fci-rule-color "#373b41")
+   '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
+   '(frame-background-mode 'dark)
+   '(global-git-gutter-mode t)
+   '(package-selected-packages
+     '(auto-package-update evil-nerd-commenter evil helm projectile cider pprint-to-buffer quelpa header2 sesman-table ctable package-lint docker-compose-mode dockerfile-mode treepy y flycheck yaml-mode parseclj string-edit web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern coffee-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby edit-indirect helm-company helm-c-yasnippet fuzzy company-statistics company clojure-snippets auto-yasnippet ac-ispell auto-complete centered-cursor-mode unfill smeargle orgit org-projectile org-category-capture org-present org-plus-contrib org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md evil-magit magit magit-popup git-commit ghub with-editor diff-hl winum which-key use-package pcre2el macrostep helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish color-theme-sanityinc-tomorrow clj-refactor cider-eval-sexp-fu bind-map auto-compile ace-window ace-jump-helm-line))
+   '(safe-local-variable-values
+     '((eval font-lock-add-keywords nil
+             `((,(concat "("
+                         (regexp-opt
+                          '("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
+                          t)
+                         "\\_>")
+                1 'font-lock-variable-name-face)))
+       (eval cider-register-cljs-repl-type 'fm "(require 'figwheel.main)(figwheel.main/start \"dev\")" 'cider-verify-piggieback-is-present)
+       (elisp-lint-indent-specs
+        (if-let* . 2)
+        (when-let* . 1)
+        (let* . defun)
+        (nrepl-dbind-response . 2)
+        (cider-save-marker . 1)
+        (cider-propertize-region . 1)
+        (cider-map-repls . 1)
+        (cider--jack-in . 1)
+        (cider--make-result-overlay . 1)
+        (multiline-comment-handler . defun)
+        (insert-label . defun)
+        (insert-align-label . defun)
+        (insert-rect . defun)
+        (cl-defun . 2)
+        (with-parsed-tramp-file-name . 2)
+        (thread-first . 1)
+        (thread-last . 1))
+       (checkdoc-minor-mode . 1)
+       (header-auto-update-enabled)
+       (cider-default-cljs-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+       (cider-cljs-lein-repl . "(do (reloaded.repl/go) (user/cljs-repl))")
+       (checkdoc-package-keywords-flag)
+       (buffer-save-without-query . t)
+       (cider-cljs-lein-repl . "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
+       (cider-cljs-lein-repl . "(do (user/go) (user/cljs-repl))")
+       (cider-refresh-after-fn . "reloaded.repl/resume")
+       (cider-refresh-before-fn . "reloaded.repl/suspend")
+       (cider-refresh-after-fn . "server.repl/post-refresh")
+       (cider-refresh-before-fn . "server.repl/pre-refresh")
+       (dired-actual-switches . "-AlhrG --color=always")
+       (dired-listing-switches . "-alr")))
+   '(vc-annotate-background nil)
+   '(vc-annotate-color-map
+     '((20 . "#cc6666")
+       (40 . "#de935f")
+       (60 . "#f0c674")
+       (80 . "#b5bd68")
+       (100 . "#8abeb7")
+       (120 . "#81a2be")
+       (140 . "#b294bb")
+       (160 . "#cc6666")
+       (180 . "#de935f")
+       (200 . "#f0c674")
+       (220 . "#b5bd68")
+       (240 . "#8abeb7")
+       (260 . "#81a2be")
+       (280 . "#b294bb")
+       (300 . "#cc6666")
+       (320 . "#de935f")
+       (340 . "#f0c674")
+       (360 . "#b5bd68")))
+   '(vc-annotate-very-old-color nil))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
