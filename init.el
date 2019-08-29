@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(vimscript
+   '(python
+     vimscript
      restclient
      csv
      asciidoc
@@ -47,6 +48,7 @@ This function should only modify configuration layer settings."
      spacemacs-modeline
      spacemacs-navigation
      spacemacs-project
+     spacemacs-layouts
 
      ;; Reload = SPC f e R
      helm
@@ -75,7 +77,8 @@ This function should only modify configuration layer settings."
      plexus-cucumber
      plexus-markdown
      plexus-org-tweaks
-     multiple-cursors)
+     multiple-cursors
+     )
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -84,7 +87,9 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(winum feature-mode)
+   dotspacemacs-additional-packages '(winum
+                                      feature-mode
+                                      terraform-mode)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -209,7 +214,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font '("Inconsolata"
                                :weight normal
                                :slant normal
-                               :size 32.0)
+                               :size 24.0)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -483,6 +488,8 @@ before packages are loaded."
 
   (define-key evil-normal-state-map ")" 'forward-sexp)
   (define-key evil-normal-state-map "(" 'backward-sexp)
+  (define-key evil-visual-state-map ")" 'forward-sexp)
+  (define-key evil-visual-state-map "(" 'backward-sexp)
 
   ;; Force myself to do it the spacemacs way
   (global-unset-key (kbd "C-x C-s"))
@@ -506,6 +513,9 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'restclient-mode
     "," #'restclient-http-send-current-stay-in-window)
 
+  ;; (re-)enable template expansion
+  (require 'org-tempo)
+
   (require 'projectile)
 
   (setq projectile-project-types
@@ -514,6 +524,9 @@ before packages are loaded."
                     (plist-put x 'test-dir "test/unit/"))))
 
   (setq web-mode-markup-indent-offset 2)
+
+  ;; 100x the default
+  (setq undo-outer-limit 1200000000)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
